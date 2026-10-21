@@ -11,6 +11,7 @@ cleanup() {
   "${compose[@]}" down -v --remove-orphans || true
 }
 trap cleanup EXIT
+git rev-parse HEAD > evidence/commit.txt
 java -version 2> evidence/java-version.txt
 "${compose[@]}" config --images > evidence/images.txt
 "${compose[@]}" up -d

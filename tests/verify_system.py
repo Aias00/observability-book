@@ -142,7 +142,7 @@ def main():
         code,value=request('http://127.0.0.1:9095/api/v1/query_exemplars?'+urllib.parse.urlencode({'query':expression,'start':time.time()-600,'end':time.time()}))
         return value if code==200 and value.get('data') else None
     samples=wait('real metric exemplars',exemplars);save('exemplars.json',samples)
-    exemplar_ids={label['value'] for series in samples['data'] for sample in series['exemplars'] for label in sample['labels'] if label['name']=='trace_id'}
+    exemplar_ids={sample['labels']['trace_id'] for series in samples['data'] for sample in series['exemplars'] if 'trace_id' in sample['labels']}
     assert exemplar_ids, samples
     known={e['trace_id'] for e in events()};assert exemplar_ids & known,(exemplar_ids,known)
     save('events.json',events());save('results.json',{'checks':results,'passed':True,'metrics_requests':metrics,'alert':alert,'exemplar_trace_ids':sorted(exemplar_ids)})
