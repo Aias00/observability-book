@@ -52,11 +52,15 @@ def spans(trace):
             for child in value:walk(child,service)
     walk(trace);return result
 
-def trace(trace_id,name):
+def trace(trace_id,name,services=None,minimum=7):
+    required=services or {'book-gateway','book-orders','book-worker'}
+    observations=[]
     def fetch():
         status,value=request('http://127.0.0.1:3200/api/traces/'+trace_id)
-        return value if status==200 and spans(value) else None
-    result=wait('Tempo trace '+name,fetch);save('trace-'+name+'.json',result);return spans(result)
+        found=spans(value) if status==200 else []
+        observations.append({'status':status,'spans':len(found),'services':sorted({s['service'] for s in found})})
+        return value if status==200 and len(found)>=minimum and required<={s['service'] for s in found} else None
+    result=wait('Tempo complete trace '+name,fetch);save('trace-arrival-'+name+'.json',observations);save('trace-'+name+'.json',result);return spans(result)
 
 def post(order,**extra):
     status,body=request('http://127.0.0.1:8080/orders',dict(id=order,**extra))
@@ -97,7 +101,7 @@ def main():
         status,body=post(name,**options);assert status==202,(status,body)
         event=wait('worker '+name,lambda:processed(name))
         results[name]={'response':body,'worker_event':event}
-        found=trace(body['trace_id'],name)
+        found=trace(body['trace_id'],name,{'book-gateway','book-orders'} if name=='broken-context' else None,5 if name=='broken-context' else 7)
         assert {'book-gateway','book-orders'}<={s['service'] for s in found},found
         if name!='broken-context':
             assert event['trace_id']==body['trace_id'],(name,event,body)
@@ -109,7 +113,7 @@ def main():
         else:
             assert event['trace_id']!=body['trace_id'],(event,body)
             assert 'book-worker' not in {s['service'] for s in found}
-            detached=trace(event['trace_id'],'detached-worker')
+            detached=trace(event['trace_id'],'detached-worker',{'book-worker'},2)
             assert 'book-worker' in {s['service'] for s in detached}
         if name=='redis-slow':
             client=next(s for s in found if s['name']=='redis SET order')
