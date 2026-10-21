@@ -14,10 +14,16 @@ trap cleanup EXIT
 java -version 2> evidence/java-version.txt
 "${compose[@]}" config --images > evidence/images.txt
 "${compose[@]}" up -d
+topic_ready=0
 for ((attempt=0;attempt<90;attempt++)); do
-  if "${compose[@]}" exec -T broker sh -c 'sh /home/rocketmq/rocketmq-5.3.2/bin/mqadmin updateTopic -n namesrv:9876 -b 127.0.0.1:10911 -t otel-book-orders' > evidence/topic.txt 2>&1; then break; fi
+  "${compose[@]}" exec -T broker sh -c 'sh /home/rocketmq/rocketmq-5.3.2/bin/mqadmin updateTopic -n namesrv:9876 -b 127.0.0.1:10911 -t otel-book-orders' > evidence/topic.txt 2>&1 || true
+  if grep -qi 'create topic.*success' evidence/topic.txt; then
+    "${compose[@]}" exec -T broker sh -c 'sh /home/rocketmq/rocketmq-5.3.2/bin/mqadmin topicRoute -n namesrv:9876 -t otel-book-orders' > evidence/topic-route.json 2>&1 || true
+    if grep -q 'brokerAddrs' evidence/topic-route.json; then topic_ready=1; break; fi
+  fi
   sleep 2
 done
+[[ "$topic_ready" == 1 ]] || { cat evidence/topic.txt; exit 1; }
 "${compose[@]}" exec -T redis redis-cli PING > evidence/redis-ping.txt
 java -jar lab/target/observability-lab.jar > evidence/application.log 2>&1 &
 app_pid=$!

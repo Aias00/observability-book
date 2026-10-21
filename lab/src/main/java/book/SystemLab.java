@@ -121,7 +121,7 @@ public final class SystemLab {
                 PRODUCER.send(message);
             } finally {producer.end();}
             event(ORDERS,"order.queued",id);respond(exchange,202,Map.of("order_id",id,"state","queued","trace_id",span.getSpanContext().getTraceId()));
-        } catch(Exception error) {outcome="error";span.recordException(error);span.setStatus(StatusCode.ERROR);try{respond(exchange,500,Map.of("error",error.getClass().getSimpleName()));}catch(Exception ignored){}}
+        } catch(Exception error) {error.printStackTrace();outcome="error";span.recordException(error);span.setStatus(StatusCode.ERROR);try{respond(exchange,500,Map.of("error",error.getClass().getSimpleName()));}catch(Exception ignored){}}
         finally {ORDERS.requests.add(1,Attributes.builder().put("route","/orders").put("outcome",outcome).build());ORDERS.duration.record((System.nanoTime()-start)/1e9,Attributes.of(io.opentelemetry.api.common.AttributeKey.stringKey("route"),"/orders"));span.end();exchange.close();}
     }
     static void gateway(HttpExchange exchange) {
