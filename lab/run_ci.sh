@@ -38,6 +38,10 @@ logs=Path('evidence/collector.log').read_text().lower()
 assert trace.lower() in logs, 'Collector did not receive trace-correlated OTLP logs'
 print('PASS actual OTLP logs contain the same trace id as Tempo spans')
 PY
+"${compose[@]}" stop collector
+python3 tests/verify_system.py --phase collector-outage
+"${compose[@]}" start collector
+python3 tests/verify_system.py --phase recovered
 kill "$app_pid"
 wait "$app_pid" || true
 app_pid=

@@ -17,6 +17,7 @@ exporters:
     tls:
       insecure: true
   prometheus:
+    enable_open_metrics: true
     endpoint: 0.0.0.0:8889
     resource_to_telemetry_conversion:
       enabled: true

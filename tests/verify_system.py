@@ -63,8 +63,23 @@ def post(order,**extra):
     return status,body
 
 def main():
-    ap=argparse.ArgumentParser();ap.add_argument('--phase',choices=['full','sampled-out'],default='full');args=ap.parse_args()
+    ap=argparse.ArgumentParser();ap.add_argument('--phase',choices=['full','sampled-out','collector-outage','recovered'],default='full');args=ap.parse_args()
     wait('application ready',lambda:request('http://127.0.0.1:8080/health')[0]==200)
+    if args.phase=='collector-outage':
+        start=time.monotonic();status,body=post('collector-outage');elapsed=time.monotonic()-start
+        assert status==202 and elapsed<8,(status,body,elapsed)
+        event=wait('business with collector stopped',lambda:processed('collector-outage'))
+        save('collector-outage.json',{'response':body,'worker_event':event,'http_elapsed_seconds':elapsed})
+        print('PASS application and real MQ consumer continue while Collector is stopped');return
+    if args.phase=='recovered':
+        wait('Collector health after restart',lambda:request('http://127.0.0.1:13133/')[0]==200)
+        status,body=post('after-outage');assert status==202,body
+        event=wait('after-outage consumer',lambda:processed('after-outage'))
+        found=trace(body['trace_id'],'after-outage');assert {'book-gateway','book-orders','book-worker'}<={s['service'] for s in found}
+        outage=json.loads((OUT/'collector-outage.json').read_text())
+        old_code,old_body=request('http://127.0.0.1:3200/api/traces/'+outage['response']['trace_id'])
+        save('collector-recovered.json',{'fresh_response':body,'fresh_worker':event,'fresh_trace_services':sorted({s['service'] for s in found}),'outage_trace_status_after_recovery':old_code})
+        print('PASS fresh real traces resume after Collector restart; old-trace result recorded without promising lossless recovery');return
     if args.phase=='sampled-out':
         status,body=post('sampled-out');assert status==202,body
         event=wait('unsampled consumer',lambda:processed('sampled-out'))
@@ -122,6 +137,14 @@ def main():
     alert=wait('Prometheus fast-burn firing',firing);save('alerts.json',alert)
     metric_labels=query('lab_requests_total');save('metric-labels.json',metric_labels)
     assert all('order_id' not in row['metric'] and 'trace_id' not in row['metric'] for row in metric_labels['data']['result'])
-    save('events.json',events());save('results.json',{'checks':results,'passed':True,'metrics_requests':metrics,'alert':alert})
+    def exemplars():
+        expression='lab_http_duration_seconds_bucket{service_name="book-gateway"}'
+        code,value=request('http://127.0.0.1:9095/api/v1/query_exemplars?'+urllib.parse.urlencode({'query':expression,'start':time.time()-600,'end':time.time()}))
+        return value if code==200 and value.get('data') else None
+    samples=wait('real metric exemplars',exemplars);save('exemplars.json',samples)
+    exemplar_ids={label['value'] for series in samples['data'] for sample in series['exemplars'] for label in sample['labels'] if label['name']=='trace_id'}
+    assert exemplar_ids, samples
+    known={e['trace_id'] for e in events()};assert exemplar_ids & known,(exemplar_ids,known)
+    save('events.json',events());save('results.json',{'checks':results,'passed':True,'metrics_requests':metrics,'alert':alert,'exemplar_trace_ids':sorted(exemplar_ids)})
     print('PASS actual Java/Redis/RocketMQ/OTLP/Tempo/Prometheus: parentage, logs, delays, broken-context, histogram, low-cardinality labels and firing alert')
 if __name__=='__main__':main()

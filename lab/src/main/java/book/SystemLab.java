@@ -91,7 +91,7 @@ public final class SystemLab {
             event(WORKER,"worker.processed",id);
             WORKER.requests.add(1,Attributes.builder().put("route","message").put("outcome","ok").build());
         } catch(Exception error) {span.recordException(error);span.setStatus(StatusCode.ERROR);throw error;}
-        finally {WORKER.duration.record((System.nanoTime()-start)/1e9,Attributes.of(io.opentelemetry.api.common.AttributeKey.stringKey("route"),"message"));span.end();}
+        finally {WORKER.duration.record((System.nanoTime()-start)/1e9,Attributes.of(io.opentelemetry.api.common.AttributeKey.stringKey("route"),"message"),Context.root().with(span));span.end();}
     }
     static void order(HttpExchange exchange) {
         Context parent=ORDERS.sdk.getPropagators().getTextMapPropagator().extract(Context.root(),exchange,HTTP_GETTER);
@@ -122,7 +122,7 @@ public final class SystemLab {
             } finally {producer.end();}
             event(ORDERS,"order.queued",id);respond(exchange,202,Map.of("order_id",id,"state","queued","trace_id",span.getSpanContext().getTraceId()));
         } catch(Exception error) {error.printStackTrace();outcome="error";span.recordException(error);span.setStatus(StatusCode.ERROR);try{respond(exchange,500,Map.of("error",error.getClass().getSimpleName()));}catch(Exception ignored){}}
-        finally {ORDERS.requests.add(1,Attributes.builder().put("route","/orders").put("outcome",outcome).build());ORDERS.duration.record((System.nanoTime()-start)/1e9,Attributes.of(io.opentelemetry.api.common.AttributeKey.stringKey("route"),"/orders"));span.end();exchange.close();}
+        finally {ORDERS.requests.add(1,Attributes.builder().put("route","/orders").put("outcome",outcome).build());ORDERS.duration.record((System.nanoTime()-start)/1e9,Attributes.of(io.opentelemetry.api.common.AttributeKey.stringKey("route"),"/orders"),Context.root().with(span));span.end();exchange.close();}
     }
     static void gateway(HttpExchange exchange) {
         try {
@@ -148,7 +148,7 @@ public final class SystemLab {
             if(response.statusCode()>=500){span.setStatus(StatusCode.ERROR);outcome="error";}
             JsonNode json=JSON.readTree(response.body());event(GATEWAY,"gateway.request",json.path("order_id").asText("unknown"));respond(exchange,response.statusCode(),json);
         } catch(Exception error){span.recordException(error);span.setStatus(StatusCode.ERROR);outcome="error";try{respond(exchange,502,Map.of("error",error.getClass().getSimpleName()));}catch(Exception ignored){}}
-        finally {GATEWAY.requests.add(1,Attributes.builder().put("route","/orders").put("outcome",outcome).build());GATEWAY.duration.record((System.nanoTime()-start)/1e9,Attributes.of(io.opentelemetry.api.common.AttributeKey.stringKey("route"),"/orders"));span.end();exchange.close();}
+        finally {GATEWAY.requests.add(1,Attributes.builder().put("route","/orders").put("outcome",outcome).build());GATEWAY.duration.record((System.nanoTime()-start)/1e9,Attributes.of(io.opentelemetry.api.common.AttributeKey.stringKey("route"),"/orders"),Context.root().with(span));span.end();exchange.close();}
     }
     public static void main(String[] args) throws Exception {
         String namesrv=System.getenv().getOrDefault("NAMESRV_ADDR","127.0.0.1:9876");REDIS.ping();
