@@ -89,6 +89,60 @@
       "sha256": "d793eae37b76c193d6d89479fe73cfa42eca407ba42cc2471aca12c10c08931b",
       "bytes": 2552,
       "error": ""
+    },
+    {
+      "id": "trace-context",
+      "url": "https://www.w3.org/TR/trace-context/",
+      "accessed": "2026-10-21",
+      "exit": 0,
+      "sha256": "9e7228d2a91c5aa4bef6e7f610366a2000274ee51699053e10c8ac3f0b8965be",
+      "bytes": 100612,
+      "error": ""
+    },
+    {
+      "id": "slo",
+      "url": "https://sre.google/workbook/alerting-on-slos/",
+      "accessed": "2026-10-21",
+      "exit": 0,
+      "sha256": "340f148f65a7a92596c65f0a44828cbc1bcf165291cccf2c33a2b57673dd30b3",
+      "bytes": 88545,
+      "error": ""
+    },
+    {
+      "id": "metric-naming",
+      "url": "https://prometheus.io/docs/practices/naming/",
+      "accessed": "2026-10-21",
+      "exit": 0,
+      "sha256": "87edfb89793d20f2dee29f0b4e048479f13078d0ba73d7e9d68174a5c92d08bd",
+      "bytes": 201967,
+      "error": ""
+    },
+    {
+      "id": "metric-model",
+      "url": "https://opentelemetry.io/docs/specs/otel/metrics/data-model/",
+      "accessed": "2026-10-21",
+      "exit": 0,
+      "sha256": "5d87d113d13ef2abcb30d82df727acb1279ec804d26ea0d295041b6deb17a4cc",
+      "bytes": 166880,
+      "error": ""
+    },
+    {
+      "id": "sampling",
+      "url": "https://opentelemetry.io/docs/concepts/sampling/",
+      "accessed": "2026-10-21",
+      "exit": 0,
+      "sha256": "2b3b44e6d9be5be7ee981bfb01df24035008da697aa6eea24b2c9bdd5ed6ec86",
+      "bytes": 415146,
+      "error": ""
+    },
+    {
+      "id": "log-model",
+      "url": "https://opentelemetry.io/docs/specs/otel/logs/data-model/",
+      "accessed": "2026-10-21",
+      "exit": 0,
+      "sha256": "50a5347b8f30bea3aad9d0b4bd0ad0190028e9084fc69cd1996b8ff963d5dec7",
+      "bytes": 94745,
+      "error": ""
     }
   ]
 }

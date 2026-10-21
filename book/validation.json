@@ -1,0 +1,67 @@
+{
+  "status": "passed",
+  "run_url": "https://github.com/Aias00/observability-book/actions/runs/39573012520",
+  "commit": "b4e736b965dc4fc8eaf8fc4a8b4c34a319acf986",
+  "scenarios": {
+    "normal": {
+      "spans": 7,
+      "injected_span_ms": null,
+      "consumer_span_ms": null
+    },
+    "redis-slow": {
+      "spans": 7,
+      "injected_span_ms": 351.388002,
+      "consumer_span_ms": null
+    },
+    "worker-slow": {
+      "spans": 7,
+      "injected_span_ms": null,
+      "consumer_span_ms": 451.45032
+    },
+    "broken-context": {
+      "spans": 5,
+      "injected_span_ms": null,
+      "consumer_span_ms": null
+    }
+  },
+  "exemplar_trace_ids": [
+    "01f4becc654d60adb4accf6abccf77be",
+    "0e1616444eec11d23d316ef8bce2c150",
+    "2f249e8422c03ca4f0d4143b77a62230",
+    "30447b925b35aa82eb14fa62c6ea7cde",
+    "4dd1ef769d58d4bea91791ce14f8d1d0",
+    "6b69edf9d78e804fa03d1ed1b62d62fa",
+    "6dc9646aaaf390331b2f8b69c610363d",
+    "8c1c0a12e5e753724dc92104005bc378",
+    "b80a95919caceef688debb9cb081c7cf",
+    "b9d224e69e66e3e9da3ddfacd4f691d4",
+    "bb8f6904a6027380a2b825ee7691b060",
+    "beee0ae46da41d75978cc60eb0656307",
+    "f00fd1ef8782b607307e62e0b5accff0"
+  ],
+  "sampling_zero_tempo_http": 404,
+  "collector_outage_http_seconds": 0.010893569999993247,
+  "collector_recovered": {
+    "fresh_response": {
+      "order_id": "after-outage",
+      "state": "queued",
+      "trace_id": "5ebb073a859e6319e743a58eeed9b22c"
+    },
+    "fresh_worker": {
+      "timestamp": "2026-10-21T08:57:11.146550318Z",
+      "service": "book-worker",
+      "event": "worker.processed",
+      "order_id": "after-outage",
+      "trace_id": "5ebb073a859e6319e743a58eeed9b22c",
+      "span_id": "c16e37f4f962c127",
+      "sampled": true
+    },
+    "fresh_trace_services": [
+      "book-gateway",
+      "book-orders",
+      "book-worker"
+    ],
+    "outage_trace_status_after_recovery": 200
+  },
+  "alert_state": "firing"
+}

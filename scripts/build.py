@@ -305,7 +305,7 @@ def main():
     with zipfile.ZipFile(SITE / 'downloads/lab.zip', 'w', zipfile.ZIP_DEFLATED) as archive:
         for path in lab_files():
             archive.write(path, path.relative_to(ROOT).as_posix())
-        for name in ['README.md', 'LICENSE']:
+        for name in ['README.md', 'LICENSE', 'LICENSE-CODE']:
             if (ROOT / name).exists():
                 archive.write(ROOT / name, name)
     source_links = ''

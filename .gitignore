@@ -9,3 +9,5 @@ node_modules/
 lab/target/
 research/*.txt
 evidence/
+
+.build-evidence/

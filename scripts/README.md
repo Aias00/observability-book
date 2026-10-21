@@ -46,8 +46,8 @@ GitHub Pages 应设置为 GitHub Actions。推送 `main` 或手动运行工作�
 工作流也保留 `book-downloads` artifact。经人工确认整书内容和运行证据后，可用 GitHub CLI 手动发布 Release；以下命令仅为维护说明，不会由构建脚本自动执行：
 
 ```sh
-gh release create v1.0.0 site/downloads/ai-gateway-book.epub site/downloads/SHA256SUMS \
-  --title 'AI 网关与模型路由实战 v1.0.0' --notes-file /path/to/release-notes.md
+gh release create v1.0.0 site/downloads/observability-book.epub site/downloads/SHA256SUMS \
+  --title '全链路可观测性 v1.0.0' --notes-file /path/to/release-notes.md
 ```
 
 后续其他书复用时，修改元数据、书稿、实验与该发布命令的文件名即可；不需要继承本书正文或来源清单。
