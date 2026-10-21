@@ -1,0 +1,11 @@
+site/
+.build/
+.tools/
+__pycache__/
+*.pyc
+node_modules/
+.DS_Store
+
+lab/target/
+research/*.txt
+evidence/

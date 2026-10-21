@@ -1,0 +1,10 @@
+groups:
+  - name: book-slo
+    rules:
+      - alert: BookFastBurn
+        expr: (sum(rate(lab_requests_total{service_name="book-gateway",outcome="error"}[1m])) / sum(rate(lab_requests_total{service_name="book-gateway"}[1m])) > 0.05) and (sum(increase(lab_requests_total{service_name="book-gateway"}[1m])) >= 5)
+        for: 2s
+        labels:
+          severity: exercise
+        annotations:
+          summary: "实验请求错误率超过5%，为99%可用性目标的5倍预算消耗率"

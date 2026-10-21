@@ -1,0 +1,32 @@
+[
+  {
+    "image": "library/redis:7.2.5-alpine",
+    "exit": 0,
+    "digest": "sha256:6aaf3f5e6bc8a592fbfe2cccf19eb36d27c39d12dab4f4b01556b7449e7b1f44",
+    "error": ""
+  },
+  {
+    "image": "apache/rocketmq:5.3.2",
+    "exit": 0,
+    "digest": "sha256:4a80ff5cd4b0a3d3ef6dc338ce2028a85bd995648cb3aa5c3e753746d2dbc587",
+    "error": ""
+  },
+  {
+    "image": "otel/opentelemetry-collector-contrib:0.111.0",
+    "exit": 0,
+    "digest": "sha256:a2a52e43c1a80aa94120ad78c2db68780eb90e6d11c8db5b3ce2f6a0cc6b5029",
+    "error": ""
+  },
+  {
+    "image": "grafana/tempo:2.6.1",
+    "exit": 0,
+    "digest": "sha256:ef4384fce6e8ad22b95b243d8fc165628cda655376fd50e7850536ad89d71d50",
+    "error": ""
+  },
+  {
+    "image": "prom/prometheus:v2.55.1",
+    "exit": 0,
+    "digest": "sha256:2659f4c2ebb718e7695cb9b25ffa7d6be64db013daba13e05c875451cf51b0d3",
+    "error": ""
+  }
+]

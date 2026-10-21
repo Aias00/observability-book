@@ -1,0 +1,33 @@
+name: Validate real observability system
+on:
+  workflow_dispatch:
+  workflow_call:
+  push:
+    branches: [main]
+    paths: ['lab/**', 'tests/**', '.github/workflows/lab.yml']
+permissions:
+  contents: read
+jobs:
+  integration:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile actual Java integration
+        run: mvn -f lab/pom.xml --batch-mode --no-transfer-progress package
+      - name: Start pinned infrastructure and query real telemetry
+        run: bash lab/run_ci.sh
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: observability-evidence
+          path: evidence/
+          retention-days: 90

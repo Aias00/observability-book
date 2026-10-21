@@ -1,0 +1,94 @@
+{
+  "references": [
+    {
+      "id": "otel-java",
+      "url": "https://opentelemetry.io/docs/languages/java/instrumentation/",
+      "accessed": "2026-10-21",
+      "exit": 0,
+      "sha256": "70c8aea0080b8bac8f493c2820e41f944d5da36678cc69c90e1024fef1ddbf58",
+      "bytes": 424778,
+      "error": ""
+    },
+    {
+      "id": "otel-context",
+      "url": "https://opentelemetry.io/docs/concepts/context-propagation/",
+      "accessed": "2026-10-21",
+      "exit": 0,
+      "sha256": "6f93c34180bb37708bac35a7368e64dcc76210359072f0525513fff9728c5f6b",
+      "bytes": 414642,
+      "error": ""
+    },
+    {
+      "id": "collector",
+      "url": "https://opentelemetry.io/docs/collector/configuration/",
+      "accessed": "2026-10-21",
+      "exit": 0,
+      "sha256": "17f2f71cb64b97948672e2ba70ba49c6ea18278c18494c6bb1b7163af5137003",
+      "bytes": 158128,
+      "error": ""
+    },
+    {
+      "id": "tempo-api",
+      "url": "https://grafana.com/docs/tempo/latest/api_docs/",
+      "accessed": "2026-10-21",
+      "exit": 0,
+      "sha256": "8026b95400ea1418e3be8e5471fcd563b38437b29a14e54f535db268aa141abe",
+      "bytes": 246564,
+      "error": ""
+    },
+    {
+      "id": "prometheus-api",
+      "url": "https://prometheus.io/docs/prometheus/latest/querying/api/",
+      "accessed": "2026-10-21",
+      "exit": 0,
+      "sha256": "cd3dee4480931bbf8feb034f480a2955bca6429b73ac81ea8f02f673a2758c43",
+      "bytes": 854295,
+      "error": ""
+    },
+    {
+      "id": "rocketmq-docker",
+      "url": "https://rocketmq.apache.org/docs/quickStart/02quickstartWithDocker/",
+      "accessed": "2026-10-21",
+      "exit": 0,
+      "sha256": "df4d3d794a0b84120096ec68d8eec8d343e6bd79fabe1acf59d69bab32484cb3",
+      "bytes": 108161,
+      "error": ""
+    },
+    {
+      "id": "jedis",
+      "url": "https://redis.io/docs/latest/develop/clients/jedis/",
+      "accessed": "2026-10-21",
+      "exit": 0,
+      "sha256": "b30721e77facc94ed235e0e6c8df3938fd0cba25604065903ee0ba333b5388db",
+      "bytes": 243836,
+      "error": ""
+    },
+    {
+      "id": "otel-pom",
+      "url": "https://repo.maven.apache.org/maven2/io/opentelemetry/opentelemetry-sdk/1.55.0/opentelemetry-sdk-1.55.0.pom",
+      "accessed": "2026-10-21",
+      "exit": 0,
+      "sha256": "91509d39ac6c48c8cc540b1c75d0f5928b961dba2a763704174bb10d77659ce6",
+      "bytes": 2549,
+      "error": ""
+    },
+    {
+      "id": "jedis-pom",
+      "url": "https://repo.maven.apache.org/maven2/redis/clients/jedis/5.2.0/jedis-5.2.0.pom",
+      "accessed": "2026-10-21",
+      "exit": 0,
+      "sha256": "7e621dd391b4d282ee0480c2eea2f520963ed77fba94fe802817bb6b1b8f1043",
+      "bytes": 9681,
+      "error": ""
+    },
+    {
+      "id": "rocketmq-pom",
+      "url": "https://repo.maven.apache.org/maven2/org/apache/rocketmq/rocketmq-client/5.3.2/rocketmq-client-5.3.2.pom",
+      "accessed": "2026-10-21",
+      "exit": 0,
+      "sha256": "d793eae37b76c193d6d89479fe73cfa42eca407ba42cc2471aca12c10c08931b",
+      "bytes": 2552,
+      "error": ""
+    }
+  ]
+}

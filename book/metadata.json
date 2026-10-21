@@ -1,0 +1,19 @@
+{
+  "title": "全链路可观测性：从一次慢请求到故障定位",
+  "subtitle": "Java、Redis 与异步消息的证据链",
+  "author": "Aias00",
+  "lang": "zh-CN",
+  "repository": "Aias00/observability-book",
+  "version": "1.0.0",
+  "slug": "observability-book",
+  "description": "从真实Java HTTP、Redis与RocketMQ订单链路出发，接入OpenTelemetry与Collector，用Tempo、Prometheus和关联日志解释慢请求、异步边界与告警。",
+  "short_title": "全链路可观测性",
+  "cover_label": "OBSERVABILITY · ENGINEERING",
+  "cover_lines": [
+    "全链路可观测性",
+    "从一次慢请求",
+    "到故障定位"
+  ],
+  "cover_subtitle": "Java · OpenTelemetry · 证据链",
+  "include_code": true
+}
